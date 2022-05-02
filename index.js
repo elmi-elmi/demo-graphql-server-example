@@ -38,23 +38,29 @@ const typeDefs = gql`
     
     type Pet {
         id:String!
-        createdAt:String!
+        createAt:String!
+        name:String!
+        type:String!
+    }
+    
+    input PetInput {
         name:String!
         type:String!
     }
     
     type Query {
-        pets:[Pet]!
+        pets(input:PetInput):[Pet]!
     }
 `
 
 const resolvers = {
     Query:{
-        pets:()=>{
+        pets(_,{input}){
             return[
                 {id:'1',createAt:'now',name:'shahrokh',type:'human'},
+                {id:'1',createAt:'after',name:'shahrokh',type:'human'},
                 {id:'2',createAt:'after',name:'tara',type:'love'}
-            ]
+            ].filter(pet=>pet.name === input.name)
         }
     }
 
