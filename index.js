@@ -37,7 +37,7 @@ const typeDefs = gql`
     }
     
     type Pet {
-        id:String!
+        id:ID!
         createAt:String!
         name:String!
         type:String!
@@ -47,10 +47,19 @@ const typeDefs = gql`
         name:String!
         type:String!
     }
+    input NewPet {
+        name:String!
+        type:String!
+        }
     
     type Query {
         pets(input:PetInput):[Pet]!
     }
+   
+   type Mutation {
+    newPet(input:NewPet):Pet
+   } 
+   
 `
 
 const resolvers = {
@@ -61,6 +70,11 @@ const resolvers = {
                 {id:'1',createAt:'after',name:'shahrokh',type:'human'},
                 {id:'2',createAt:'after',name:'tara',type:'love'}
             ].filter(pet=>pet.name === input.name)
+        }
+    },
+    Mutation:{
+        newPet(_,{input}){
+            return input
         }
     }
 
